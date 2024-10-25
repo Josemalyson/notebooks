@@ -1,20 +1,25 @@
-# Assignment
+# %% [markdown]
+# # Assignment
+# 
+# I often need "fake data" to show people how to do data manipulation tasks with regular expressions or pandas. The
+# problem is that sometimes the data I generate on the web is too messy, and I get bogged down showing students how to
+# clean all of the data when some of it isn't representative of what I want. In this assignment you get a chance to help
+# me generate realistic fake data, all with llama 2!
+# 
+# For each question I will describe the data in natural language and you must write a function which queries llama 2 to
+# generate data in that format and adhere to the description I've written.
+# 
+# 
 
-I often need "fake data" to show people how to do data manipulation tasks with regular expressions or pandas. The
-problem is that sometimes the data I generate on the web is too messy, and I get bogged down showing students how to
-clean all of the data when some of it isn't representative of what I want. In this assignment you get a chance to help
-me generate realistic fake data, all with llama 2!
+# %% [markdown]
+# ## Question 1
+# 
+# Generate for me a list of ten fictitious names, where the first name is a single word, and the last (family) name may be
+# (but doesn't have to be!) up to two words separated by a hyphen. Don't include titles, honorifics, or middle names. The
+# autograder will expect that you return a list[str] where each value in the list is a full name.
+# 
 
-For each question I will describe the data in natural language and you must write a function which queries llama 2 to
-generate data in that format and adhere to the description I've written.
-
-
-## Question 1
-
-Generate for me a list of ten fictitious names, where the first name is a single word, and the last (family) name may be
-(but doesn't have to be!) up to two words separated by a hyphen. Don't include titles, honorifics, or middle names. The
-autograder will expect that you return a list[str] where each value in the list is a full name.
-
+# %%
 import os
 import json
 import re
@@ -72,28 +77,32 @@ assert (
     len(results) == 10
 ), f"You did not return ten and only ten results, instead we got {len(results)}."
 
-## Question 2
 
-Generate for me a list of 5 things to do in your hometown (or mine if you prefer, Ann Arbor Michigan!). The key is that
-these should all (a) start with a number and (b) be no more than three sentences long. So the following would be a good
-item:
+# %% [markdown]
+# ## Question 2
+# 
+# Generate for me a list of 5 things to do in your hometown (or mine if you prefer, Ann Arbor Michigan!). The key is that
+# these should all (a) start with a number and (b) be no more than three sentences long. So the following would be a good
+# item:
+# 
+# - 1\. Go to the Henry Ford Museum. The Henry Ford Museum has all sorts of wonderful exhibits for all ages. One
+#   particular highlight includes giants trains!
+# 
+# While the following would **not be good items** (the first item does not start a numbered list, the second item is not a
+# sentence as it doesn't end in punctuation, and the third item just goes on and on and on):
+# 
+# - A\. Go to the University of Michigan. The University of Michigan is a school with more than 50,000 students in Ann
+#   Arbor, MI. The University of Michigan is a public School.
+# - 2\. Visit the Detroit Eastern Market
+# - 3\. Visit Sleeping Bear Dunes. The dunes are located along the northwest coast of the Lower Peninsula of Michigan in
+#   Leelanau and Benzie counties near Traverse City. It covers a 35-mile-long stretch of Lake Michigan's eastern
+#   coastline, as well as North and South Manitou islands. This national park is known for its massive dunes, some of
+#   which are over 400 feet high. The area gets its name from the Native American legend of the Sleeping Bear. According
+#   to the story, a mother bear and her two cubs were trying to cross Lake Michigan from Wisconsin to escape a forest
+#   fire.
+# 
 
-- 1\. Go to the Henry Ford Museum. The Henry Ford Museum has all sorts of wonderful exhibits for all ages. One
-  particular highlight includes giants trains!
-
-While the following would **not be good items** (the first item does not start a numbered list, the second item is not a
-sentence as it doesn't end in punctuation, and the third item just goes on and on and on):
-
-- A\. Go to the University of Michigan. The University of Michigan is a school with more than 50,000 students in Ann
-  Arbor, MI. The University of Michigan is a public School.
-- 2\. Visit the Detroit Eastern Market
-- 3\. Visit Sleeping Bear Dunes. The dunes are located along the northwest coast of the Lower Peninsula of Michigan in
-  Leelanau and Benzie counties near Traverse City. It covers a 35-mile-long stretch of Lake Michigan's eastern
-  coastline, as well as North and South Manitou islands. This national park is known for its massive dunes, some of
-  which are over 400 feet high. The area gets its name from the Native American legend of the Sleeping Bear. According
-  to the story, a mother bear and her two cubs were trying to cross Lake Michigan from Wisconsin to escape a forest
-  fire.
-
+# %%
 import os
 import json
 import re
@@ -148,35 +157,39 @@ assert (
     len(results) == 5
 ), f"You did not return five and only five results, instead we got {len(results)}."
 
-## Question 3
 
-Generate for me US-based addresses which have a person's name which usually appears on the first line, an optional
-company name which often goes on the second line, a street address which has a number followed by some text description,
-a city and state where the state is a two letter identifier and comes after the city name, and zip code which is a five
-digit number (but as a string, since it could start with 0) followed by an optional hyphen and four more digits.
+# %% [markdown]
+# ## Question 3
+# 
+# Generate for me US-based addresses which have a person's name which usually appears on the first line, an optional
+# company name which often goes on the second line, a street address which has a number followed by some text description,
+# a city and state where the state is a two letter identifier and comes after the city name, and zip code which is a five
+# digit number (but as a string, since it could start with 0) followed by an optional hyphen and four more digits.
+# 
+# 
+# To make it easy for you to conform to this set of requirements, I created a simple class from the following example --
+# my mailing address!
+# 
+# > Dr. Christopher Brooks
+# >
+# > > School of Information, University of Michigan
+# > >
+# > > 105 S. State St.
+# > >
+# > > Ann Arbor, MI
+# > >
+# > > 48109-1285
+# 
+# Your function should return exactly 5 of these entries!
+# 
+# And, if you've gotten this far in the course, why not send me a postcard and introduce yourself? Everyone loves getting
+# mail!
+# 
+# (Don't forget to add **United States** if sending mail internationally, even though field is missing from the assignment
+# `MailingAddress` class.)
+# 
 
-
-To make it easy for you to conform to this set of requirements, I created a simple class from the following example --
-my mailing address!
-
-> Dr. Christopher Brooks
->
-> > School of Information, University of Michigan
-> >
-> > 105 S. State St.
-> >
-> > Ann Arbor, MI
-> >
-> > 48109-1285
-
-Your function should return exactly 5 of these entries!
-
-And, if you've gotten this far in the course, why not send me a postcard and introduce yourself? Everyone loves getting
-mail!
-
-(Don't forget to add **United States** if sending mail internationally, even though field is missing from the assignment
-`MailingAddress` class.)
-
+# %%
 import os
 import json
 import re
@@ -248,3 +261,6 @@ with redirect_stderr( tempfile.TemporaryFile('wt') ) as error_catcher:
 assert (
     len(results) == 5
 ), f"You did not return five and only five results, instead we got {len(results)}."
+
+
+
